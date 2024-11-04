@@ -32,15 +32,22 @@ Benjamin Liang
 
 #### Introduction:
 - To install all necessary packages run ```pip install -r requirements.txt``` from the outer ```heygen_video_translation``` directory.
-
-#### Key Files:
-- 
-
-
+  
 #### Server Attributes:
 - possible statuses: pending, completed, or error
 - configurable random delay
 
+#### Key Files:
+- 
+
 #### Running the Server:
 - blah
 - test_integration.py
+
+#### Core Features:
+- features
+
+#### Ease for Third-Party Use:
+- package
+
+
