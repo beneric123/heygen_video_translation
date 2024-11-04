@@ -50,4 +50,8 @@ Benjamin Liang
 #### Ease for Third-Party Use:
 - package
 
+#### Customer-Centric Design:
+- Efficiency: Dynamic polling based on signals from server - reduces polling when job is far from being completed & increases frequency when completion is near
+- Transparency: Provide real-time estimates of duration to completion to keep user constantly informed
+
 
