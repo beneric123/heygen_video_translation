@@ -5,7 +5,7 @@ import logging
 class TranslationClient:
     def __init__(self, base_url, min_polling_interval=1, max_polling_interval=10, max_retries=15):
         """
-        Initializes the TranslationClient with dynamic polling parameters.
+        Initializes TranslationClient with dynamic polling parameters.
 
         Parameters:
         - base_url (str): The base URL of the server to connect to.
@@ -18,14 +18,14 @@ class TranslationClient:
         self.max_polling_interval = max_polling_interval
         self.max_retries = max_retries
 
-        # Configure logging for clear, user-friendly output
+        # Configure logging
         logging.basicConfig(
             format='%(asctime)s - %(levelname)s - %(message)s',
             level=logging.INFO
         )
 
     def get_status(self):
-        """Method to check job status from the server."""
+        """Checks job status from server."""
         try:
             response = requests.get(f"{self.base_url}/status")
             response.raise_for_status()
@@ -36,10 +36,10 @@ class TranslationClient:
 
     def wait_for_completion(self):
         """
-        Polls the server based on dynamic server signals until job completes or errors out.
+        Polls the server based on dynamic server signals until job either completes or errors.
         
         Returns:
-        - str: The final job status, either "completed" or "error".
+        - str: Final job status, either "completed" or "error".
         """
         for attempt in range(1, self.max_retries + 1):
             # Get the current job status and estimated time remaining
@@ -52,7 +52,7 @@ class TranslationClient:
                 f"Attempt {attempt}: Status - {status} (Next attempt in {estimated_time_remaining:.2f} seconds)"
             )
 
-            # Check for terminal statuses
+            # Check for completion or error
             if status == "completed":
                 logging.info("Job completed successfully.")
                 return status
@@ -60,14 +60,13 @@ class TranslationClient:
                 logging.info("Job encountered an error.")
                 return status
 
-            # Calculate the delay based on estimated time remaining, bounded by min and max intervals
+            # Calculate delay based on estimated time remaining, bounded by min and max polling intervals
             delay = min(max(estimated_time_remaining, self.min_polling_interval), self.max_polling_interval)
             time.sleep(delay)
 
         logging.warning("Max retries reached. Job did not complete.")
         return "incomplete"
 
-# Usage Example
 if __name__ == "__main__":
     client = TranslationClient("http://127.0.0.1:8000/vid_trans_api")
     client.wait_for_completion()
